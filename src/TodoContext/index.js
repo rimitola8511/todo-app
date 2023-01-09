@@ -99,7 +99,7 @@ function TodoProvider({ children }) {
     const maxId = getMaxId(todos);
     const findTodoIndex = todos.findIndex((todo) => todo.id === newTodo.id);
     if (findTodoIndex === -1) {
-      saveTodos([...todos, { id: maxId + 1, ...newTodo }]);
+      saveTodos([...todos, { id: maxId + 1, completed: false, ...newTodo }]);
     } else {
       const todosCopy = [...todos];
       const todoToEdit = todosCopy[findTodoIndex];
