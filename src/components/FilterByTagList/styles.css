@@ -1,0 +1,20 @@
+.taglist--container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  margin: 5px 0;
+}
+
+@media screen and (min-width: 767px) {
+  .taglist--container {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+  }
+
+  .row {
+    flex-direction: row;
+  }
+}

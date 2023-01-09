@@ -1,0 +1,32 @@
+.checkbox--container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.input__text {
+  background-color: rgba(178, 175, 161, 0.2);
+  border: none;
+  padding: 12px 20px;
+  width: 100%;
+  border-radius: 8px;
+}
+
+.input__text:focus-visible {
+  outline: none;
+}
+
+.input__checkbox {
+  cursor: pointer;
+}
+
+.input__label {
+  cursor: pointer;
+  font-size: 0.88rem;
+}
+
+@media screen and (min-width: 767px) {
+  .input__label {
+    font-size: 1rem;
+  }
+}

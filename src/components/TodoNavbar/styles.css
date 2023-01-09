@@ -1,0 +1,21 @@
+.todo--navbar {
+  position: relative;
+  display: flex;
+  min-height: 54px;
+  padding-bottom: 20px;
+}
+
+.todo--navbar__ul {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  width: 100%;
+}
+
+.todo--navbar__logo {
+  font-size: 35px;
+  margin: 0;
+}

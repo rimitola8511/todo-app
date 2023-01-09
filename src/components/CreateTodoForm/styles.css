@@ -1,0 +1,76 @@
+.todo--form {
+  background-color: #fff;
+  border-radius: 16px;
+  display: flex;
+  padding: 30px;
+  position: relative;
+}
+
+.todo--form__actions--buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.todo--form__cancel--button {
+  border: none;
+  background-color: transparent;
+  padding: 5px 0;
+  cursor: pointer;
+}
+
+.todo--form__add-edit--button {
+  border: none;
+  background-color: #69665c;
+  color: #fff;
+  border-radius: 8px;
+  padding: 10px 50px;
+  cursor: pointer;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+
+.form-group > label {
+  font-weight: 600;
+  font-size: 1.2rem;
+  padding: 5px 0;
+}
+
+.form-group > input[type="text"] {
+  border-radius: 8px;
+  padding: 10px 10px 10px 15px;
+  border: none;
+  background-color: rgba(178, 175, 161, 0.2);
+}
+
+.form-group > input[type="text"]:focus-visible {
+  outline: none;
+}
+
+.form-group > textarea {
+  border-radius: 8px;
+  padding: 10px 10px 10px 15px;
+  border: none;
+  background-color: rgba(178, 175, 161, 0.2);
+}
+
+.form-group > textarea:focus-visible {
+  outline: none;
+}
+
+.form-group > ul {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.todo--form__error--categories {
+  font-size: 0.7rem;
+  color: red;
+  padding: 5px 0;
+}
