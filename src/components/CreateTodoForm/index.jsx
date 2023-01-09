@@ -68,7 +68,11 @@ function CreateTodoForm() {
     <div className='todo--form'>
       <form onSubmit={handleSubmit}>
         <div className='todo--form__actions--buttons'>
-          <button className='todo--form__cancel--button' onClick={handleCancel}>
+          <button
+            type='button'
+            className='todo--form__cancel--button'
+            onClick={handleCancel}
+          >
             Cancelar
           </button>
           <button className='todo--form__add-edit--button' type='submit'>
