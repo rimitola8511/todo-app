@@ -8,7 +8,6 @@ function useLocalStorage(itemName, initialValue) {
   const localStorageItem = localStorage.getItem(itemName);
 
   useEffect(() => {
-    console.log("entro");
     setTimeout(() => {
       try {
         let parsedTodos;

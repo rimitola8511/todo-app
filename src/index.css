@@ -12,7 +12,8 @@ body {
     "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: powderblue;
+  background: no-repeat url("./assets/background.svg");
+  background-size: cover;
 }
 
 @media screen and (min-width: 767px) {

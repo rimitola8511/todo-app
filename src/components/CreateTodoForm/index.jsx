@@ -86,6 +86,8 @@ function CreateTodoForm() {
             type='text'
             name='title'
             placeholder='add a title...'
+            minLength='5'
+            maxLength='50'
             value={todo.title}
             onChange={handleChange}
             required
@@ -98,6 +100,7 @@ function CreateTodoForm() {
             id='description'
             placeholder='description...'
             rows='5'
+            maxLength='200'
             value={todo.description}
             onChange={handleChange}
           ></textarea>
@@ -105,20 +108,18 @@ function CreateTodoForm() {
         <div className='form-group'>
           <label>Tag</label>
           <ul>
-            {list
-              .filter((tag) => tag !== "all")
-              .map((tag) => (
-                <TagItem
-                  key={tag}
-                  tag={tag}
-                  isClickable
-                  showLabel
-                  handleOnClick={() => chooseTag(tag)}
-                  isActive={todo.categories.some(
-                    (categoryTag) => categoryTag === tag
-                  )}
-                />
-              ))}
+            {list.map((tag) => (
+              <TagItem
+                key={tag}
+                tag={tag}
+                isClickable
+                showLabel
+                handleOnClick={() => chooseTag(tag)}
+                isActive={todo.categories.some(
+                  (categoryTag) => categoryTag === tag
+                )}
+              />
+            ))}
           </ul>
           <div className='todo--form__error--categories'>{error}</div>
         </div>

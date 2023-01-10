@@ -1,5 +1,4 @@
-import { useContext, useState } from "react";
-import { TodoContext } from "../../TodoContext";
+import { useState } from "react";
 import { Input } from "../Checkbox";
 import { TagItem } from "../TagItem";
 import { TodoDropdown } from "../TodoDropdown";

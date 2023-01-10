@@ -2,6 +2,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  word-wrap: break-word;
   justify-content: space-between;
   background-color: #fff9de;
   border-radius: 8px;

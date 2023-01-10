@@ -4,7 +4,7 @@ import { TodoContext } from "../../TodoContext";
 import "./styles.css";
 
 function CreateTodoButton() {
-  const { openModal, setOpenModal } = useContext(TodoContext);
+  const { setOpenModal } = useContext(TodoContext);
   return (
     <Plus
       className='todo--navbar__add-todo'

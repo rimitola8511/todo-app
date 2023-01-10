@@ -6,16 +6,16 @@ import { Input } from "../components/Checkbox";
 import { useContext } from "react";
 import { CreateTodoModal } from "../components/CreateTodoModal";
 import { CreateTodoForm } from "../components/CreateTodoForm";
-import { FilterByTagList } from "../components/FilterByTagList";
+import { FilterByTagList } from "../components/FilterTagList";
 
 function AppUI() {
   const {
-    handleSearch,
-    handleHideDoneTasks,
+    toggleFilter,
     filterTodos,
     handleCompleted,
     handleDelete,
     openModal,
+    getTodos,
   } = useContext(TodoContext);
 
   return (
@@ -27,7 +27,11 @@ function AppUI() {
           <Input
             type='text'
             placeholder='Buscar todo...'
-            onChange={handleSearch}
+            onChange={(e) =>
+              toggleFilter("search", e.target.value, (todo) =>
+                todo.title.toLowerCase().includes(e.target.value.toLowerCase())
+              )
+            }
           />
 
           {filterTodos.length > 0 && <FilterByTagList />}
@@ -36,14 +40,20 @@ function AppUI() {
               id='checkbox'
               type='checkbox'
               label='Hide Done Tasks'
-              onChange={handleHideDoneTasks}
+              onChange={(e) =>
+                toggleFilter(
+                  "hideComplete",
+                  e.target.checked,
+                  (todo) => !todo.completed
+                )
+              }
             />
           </div>
         </section>
 
         <section className='todo--content'>
           <TodoList>
-            {filterTodos.map((todo) => (
+            {getTodos().map((todo) => (
               <TodoItem
                 key={todo.id}
                 id={todo.id}

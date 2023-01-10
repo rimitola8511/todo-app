@@ -4,16 +4,16 @@
   gap: 10px;
 }
 
-@media screen and (min-width: 991px) {
+@media screen and (min-width: 767px) {
   .todolist--container {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    max-height: calc(100vh - 114px);
+    overflow-x: auto;
   }
 }
 
-@media screen and (min-width: 767px) {
+@media screen and (min-width: 991px) {
   .todolist--container {
-    grid-template-columns: repeat(2, 1fr);
-    max-height: calc(100vh - 114px);
-    overflow: auto;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   }
 }

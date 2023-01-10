@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { createContext } from "react";
 import { useLocalStorage } from "./useLocalStorage";
 
-const TAG_LIST = ["work", "study", "entertaiment", "family", "all"];
+const TAG_LIST = ["work", "study", "entertaiment", "family"];
 
 const TodoContext = createContext({
   loading: true,
@@ -20,7 +20,7 @@ const TodoContext = createContext({
 
 const getMaxId = (todos) => {
   if (!todos.length) return 0;
-  return todos.reduce((acc, cur) => (acc.id > cur.id ? acc.id : cur.id));
+  return todos.reduce((acc, cur) => (acc.id > cur.id ? acc.id : cur.id), 0);
 };
 
 function TodoProvider({ children }) {
@@ -31,40 +31,79 @@ function TodoProvider({ children }) {
     error,
   } = useLocalStorage("TODOS_V1", []);
   const [filterTodos, setFilterTodos] = useState(todos);
-  const [shouldHideTodoCompleted, setShouldHideTodoCompleted] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [todoToEdit, setTodoToEdit] = useState(null);
 
+  const [filters, setFilters] = useState([]);
+
   useEffect(() => {
-    if (shouldHideTodoCompleted) {
-      const newTodoList = todos.filter((todo) => !todo.completed);
-      setFilterTodos(newTodoList);
-    } else {
-      setFilterTodos(todos);
-    }
-  }, [shouldHideTodoCompleted, todos]);
+    // if (shouldHideTodoCompleted) {
+    //   const newTodoList = todos.filter((todo) => !todo.completed);
+    //   setFilterTodos(newTodoList);
+    // } else {
+    setFilterTodos(todos);
+    // }
+  }, [todos]);
 
-  const handleSearch = (event) => {
-    const value = event.target.value.toLowerCase();
-
-    const newTodos = todos.filter(
-      (todo) =>
-        todo.title.toLowerCase().includes(value) ||
-        todo.description.toLowerCase().includes(value)
+  function filterExists(name, value) {
+    if (typeof value === "boolean")
+      return filters.find((f) => f.name === name) !== undefined;
+    return (
+      filters.find((f) => f.name === name && f.value === value) !== undefined
     );
+  }
 
-    setFilterTodos(newTodos);
+  function addFilter(name, value, fnc) {
+    if (name === "search") {
+      setFilters((currentFilters) => {
+        const index = currentFilters.findIndex(
+          (current) => current.name === name
+        );
+        if (index === -1) {
+          return [...currentFilters, { name, value, fnc }];
+        }
+        let current = [...currentFilters];
+        current[index] = { ...current[index], value };
+        return [...current];
+      });
+    } else {
+      setFilters((currentFilters) => [...currentFilters, { name, value, fnc }]);
+    }
+  }
+
+  function removeFilter(name, value) {
+    if (typeof value === "boolean") {
+      setFilters((currentFilters) =>
+        currentFilters.filter((f) => !(f.name === name))
+      );
+    } else {
+      setFilters((currentFilters) =>
+        currentFilters.filter((f) => !(f.name === name && f.value === value))
+      );
+    }
+  }
+
+  function toggleFilter(name, value, fnc) {
+    if (filterExists(name, value)) {
+      removeFilter.apply(null, arguments);
+    } else {
+      addFilter.apply(null, arguments);
+    }
+  }
+
+  const handleFilter = (todo, filterName) => {
+    const filter = filters.filter((f) => f.name === filterName);
+    if (!filter.length) return true;
+    return filter.every((f) => f.fnc(todo));
   };
 
-  const handleHideDoneTasks = (event) => {
-    const isChecked = event.target.checked;
-    setShouldHideTodoCompleted(isChecked);
-    if (isChecked) {
-      const newTodoList = todos.filter((todo) => !todo.completed);
-      setFilterTodos(newTodoList);
-    } else {
-      setFilterTodos(todos);
-    }
+  const getTodos = () => {
+    return todos.filter((todo) => {
+      const search = handleFilter(todo, "search");
+      const tag = handleFilter(todo, "tag");
+      const hideComplete = handleFilter(todo, "hideComplete");
+      return search && tag && hideComplete;
+    });
   };
 
   const handleCompleted = (id) => {
@@ -87,19 +126,13 @@ function TodoProvider({ children }) {
     saveTodos(newTodos);
   };
 
-  const handleFilterByTag = (tag) => {
-    const filterTodos = todos.filter((todo) => {
-      if (tag === "all") return todo;
-      return todo.categories.includes(tag);
-    });
-    setFilterTodos(filterTodos);
-  };
-
   const createTodo = (newTodo) => {
-    const maxId = getMaxId(todos);
     const findTodoIndex = todos.findIndex((todo) => todo.id === newTodo.id);
     if (findTodoIndex === -1) {
-      saveTodos([...todos, { id: maxId + 1, completed: false, ...newTodo }]);
+      saveTodos([
+        ...todos,
+        { id: getMaxId(todos) + 1, completed: false, ...newTodo },
+      ]);
     } else {
       const todosCopy = [...todos];
       const todoToEdit = todosCopy[findTodoIndex];
@@ -111,9 +144,6 @@ function TodoProvider({ children }) {
   const value = {
     loading,
     error,
-    handleSearch,
-    handleFilterByTag,
-    handleHideDoneTasks,
     filterTodos,
     handleCompleted,
     handleDelete,
@@ -124,6 +154,10 @@ function TodoProvider({ children }) {
     setTodoToEdit,
     todoToEdit,
     createTodo,
+    todos,
+    toggleFilter,
+    getTodos,
+    filters,
   };
   return <TodoContext.Provider value={value}>{children}</TodoContext.Provider>;
 }
